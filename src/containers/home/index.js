@@ -2,10 +2,14 @@ import React,{Component} from 'react';
 import HomeHeader from "../../components/HomeHeader/index";
 import {connect} from 'react-redux';
 import * as action from '../../redux/actions/home';
+import Swiper from "../../components/Swiper/index";
  class Home extends Component {
     choseLesson=(type)=>{
         console.info(type);
         this.props.setCurrentLesson(type);
+    }
+    componentDidMount(){
+    this.props.getSlider();
     }
     render() {
         return (
@@ -13,7 +17,9 @@ import * as action from '../../redux/actions/home';
                 {/*让homeheader中选择的值在home中获取到,把父亲级别的函数传给子级*/}
                 <HomeHeader choseLesson ={this.choseLesson}/>
                 {this.props.home.currentLesson}
-                <div className="content"></div>
+                <div className="content">
+                    <Swiper data={this.props.home.sliders}/>
+                </div>
             </div>
         )
     }
