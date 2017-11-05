@@ -10,7 +10,7 @@ app.use(session({
     saveUninitialized:true,
     secret:'zfpx',
     store:new mongoStore({
-        url:'mongodb://localhost:27017/ketang'
+        url:'mongodb://101.201.43.141:27017/ketang'
     })
 }));
 app.listen(3000);
