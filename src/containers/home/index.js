@@ -5,16 +5,33 @@ import * as action from '../../redux/actions/home';
 import Swiper from "../../components/Swiper/index";
 import './index.less'
 import ScrollList from "../../components/ScrollList/index";
-
+import util from '../../common/utils'
 class Home extends Component {
     choseLesson = (type) => {
         console.info(type);
+        ///只改变了类型没有改变数据
         this.props.setCurrentLesson(type);
     }
 
     componentDidMount() {
-        this.props.getSlider();
-        this.props.getLesson();
+        if (this.props.home.lesson.lessonList.length === 0) {
+            this.props.getSlider();
+            this.props.getLesson();
+        }
+        //让组件强制更新
+        if (this.props.home.lesson.lessonList.length > 0) {
+            this.forceUpdate();
+            //将记录好的滚动条状态付给elelment元素
+
+            this.refs.scroll.scrollTop =  util.get('homeLocation');
+        }
+
+    }
+
+    //组件将要销毁，记住滚动条的状态
+    componentWillUnmount() {
+       let scrollTop =  this.refs.scroll.scrollTop;
+       util.set('homeLocation',scrollTop);
     }
 
     loadMore = () => {
@@ -29,7 +46,9 @@ class Home extends Component {
                 <HomeHeader choseLesson={this.choseLesson}/>
                 {/*{this.props.home.currentLesson}*/}
                 <div className="content" ref="scroll">
-                    <ScrollList element={this.refs.scroll}>
+                    <ScrollList element={this.refs.scroll}
+                                isLoading={isLoading} hasMore={hasMore}
+                                loadMore={this.loadMore}>
                         <Swiper data={this.props.home.sliders}/>
 
                         {/*获得课程列表*/}
