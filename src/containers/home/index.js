@@ -11,6 +11,7 @@ class Home extends Component {
         console.info(type);
         ///只改变了类型没有改变数据
         this.props.setCurrentLesson(type);
+        this.props.getLesson();
     }
 
     componentDidMount() {

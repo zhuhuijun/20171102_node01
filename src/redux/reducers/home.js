@@ -15,7 +15,12 @@ export default function (state = initState, action) {
     switch (action.type) {
         case Types.SET_CURRENT_LESSON:
             return {
-                ...state, currentLesson: action.val
+                ...state, currentLesson: action.val,
+                lesson:{
+                    ...state.lesson,
+                    lessonList:[],
+                    offset:0
+                }
             };
         case Types.GET_SLIDERS:
             return {
