@@ -8,20 +8,27 @@ import App from "./containers/App";
 import './common/index.less';
 import store from './redux/store';
 import Detail from "./containers/Detail/index";
-
+import Login from "./containers/Login/index";
+import Reg from "./containers/Reg/index";
+//私有
+import PrivateRoute from './PrivateRoute';
 window._store = store;
 import {Provider} from 'react-redux';
-
+import {ConnectedRouter} from 'react-router-redux';
+import createHistory from 'history/createHashHistory';
+let history = createHistory();
 render(
     <Provider store={store}>
-        <Router>
+        <ConnectedRouter history={history}>
             <App>
                 <Switch>
                     <Route exact path={'/'} component={Home}></Route>
-                    <Route path={'/Lesson'} component={Lesson}></Route>
-                    <Route path={'/Profile'} component={Profile}></Route>
+                    <PrivateRoute path={'/Lesson'} component={Lesson}></PrivateRoute>
+                    <Route path={'/Profile'} component={Profile} />
                     <Route path={'/Detail'} component={Detail}></Route>
-
+                    <Route path={'/Login'} component={Login}></Route>
+                    <Route path={'/Reg'} component={Reg}></Route>
                 </Switch>
             </App>
-        </Router></Provider>, document.getElementById('app'));
+        </ConnectedRouter>
+    </Provider>, document.getElementById('app'));

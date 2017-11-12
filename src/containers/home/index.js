@@ -5,7 +5,9 @@ import * as action from '../../redux/actions/home';
 import Swiper from "../../components/Swiper/index";
 import './index.less'
 import ScrollList from "../../components/ScrollList/index";
-import util from '../../common/utils'
+import util from '../../common/utils';
+import {Link} from 'react-router-dom';
+
 class Home extends Component {
     choseLesson = (type) => {
         console.info(type);
@@ -24,15 +26,15 @@ class Home extends Component {
             this.forceUpdate();
             //将记录好的滚动条状态付给elelment元素
 
-            this.refs.scroll.scrollTop =  util.get('homeLocation');
+            this.refs.scroll.scrollTop = util.get('homeLocation');
         }
 
     }
 
     //组件将要销毁，记住滚动条的状态
     componentWillUnmount() {
-       let scrollTop =  this.refs.scroll.scrollTop;
-       util.set('homeLocation',scrollTop);
+        let scrollTop = this.refs.scroll.scrollTop;
+        util.set('homeLocation', scrollTop);
     }
 
     loadMore = () => {
@@ -57,15 +59,18 @@ class Home extends Component {
                             <h3><i className="iconfont icon-kecheng-copy"></i>全部课程</h3>
                             {lessonList.length ? lessonList.map((item, index) => (
                                 <div key={index}>
-                                    <div className="lesson-list-item">
-                                        <img src={item.url}/>
-                                        <p>{item.lesson}</p>
-                                        <span>{item.price}</span>
-                                    </div>
+                                    {/*跳转详情页并且带上数据*/}
+                                    <Link to={{pathname:'/detail',state:item}}>
+                                        <div className="lesson-list-item">
+                                            <img src={item.url}/>
+                                            <p>{item.lesson}</p>
+                                            <span>{item.price}</span>
+                                        </div>
+                                    </Link>
                                 </div>
                             )) : <div>正在加载</div>}
                         </div>
-                        <button onClick={this.loadMore}>获取更多</button>
+                      {/*  <button onClick={this.loadMore}>获取更多</button>*/}
                     </ScrollList>
                 </div>
 
